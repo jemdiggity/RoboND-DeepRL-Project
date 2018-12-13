@@ -144,7 +144,7 @@ void ArmPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/)
 	// Create our node for camera communication
 	cameraNode->Init();
 
-  cameraSub = node->Subscribe(
+  cameraSub = cameraNode->Subscribe(
     "/gazebo/arm_world/camera/link/camera/image",
     ArmPlugin::onCameraMsg,
     this);
@@ -152,7 +152,7 @@ void ArmPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/)
 	// Create our node for collision detection
 	collisionNode->Init();
 
-  collisionSub = node->Subscribe(
+  collisionSub = collisionNode->Subscribe(
     "/gazebo/arm_world/tube/tube_link/my_contact",
     ArmPlugin::onCollisionMsg,
     this);
@@ -185,7 +185,7 @@ bool ArmPlugin::createAgent()
 		USE_LSTM,
 		LSTM_SIZE,
 		ALLOW_RANDOM,
-		DEBUG_DQN)
+		DEBUG_DQN);
 
 	if( !agent )
 	{
