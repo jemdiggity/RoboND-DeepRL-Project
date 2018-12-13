@@ -49,8 +49,8 @@
 /
 */
 
-#define REWARD_WIN  0.0f
-#define REWARD_LOSS -0.0f
+#define REWARD_WIN  1.0f
+#define REWARD_LOSS -1.0f
 
 // Define Object Names
 #define WORLD_NAME "arm_world"
@@ -71,6 +71,17 @@
 // Lock base rotation DOF (Add dof in header file if off)
 #define LOCKBASE true
 
+// Agent actions
+enum action
+{
+	ACTION_JOINT0_INCR = 0,
+	ACTION_JOINT0_DECR = 1,
+	ACTION_JOINT1_INCR = 2,
+	ACTION_JOINT1_DECR = 3,
+	ACTION_JOINT2_INCR = 4,
+	ACTION_JOINT2_DECR = 5,
+	NUM_ACTIONS
+};
 
 namespace gazebo
 {
@@ -158,12 +169,23 @@ bool ArmPlugin::createAgent()
 		return true;
 
 
-	/*
-	/ TODO - Create DQN Agent
-	/
-	*/
-
-	agent = NULL;
+  agent = dqnAgent::Create(
+		INPUT_WIDTH,
+		INPUT_HEIGHT,
+		INPUT_CHANNELS,
+		NUM_ACTIONS,
+		OPTIMIZER,
+		LEARNING_RATE,
+		REPLAY_MEMORY,
+		BATCH_SIZE,
+		GAMMA,
+		EPS_START,
+		EPS_END,
+		EPS_DECAY,
+		USE_LSTM,
+		LSTM_SIZE,
+		ALLOW_RANDOM,
+		DEBUG_DQN)
 
 	if( !agent )
 	{
@@ -350,7 +372,7 @@ bool ArmPlugin::updateAgent()
 	/ TODO - Increase or decrease the joint position based on whether the action is even or odd
 	/
 	*/
-	float joint = 0.0; // TODO - Set joint position based on whether action is even or odd.
+	float joint = (action & 1) ? ref[action/2] - actionJointDelta : ref[action/2] + actionJointDelta; // TODO - Set joint position based on whether action is even or odd.
 
 	// limit the joint to the specified range
 	if( joint < JOINT_MIN )
@@ -574,27 +596,29 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 		/
 		*/
 
+		bool checkGroundContact = false;
+		if (gripBBox.min.z <= groundContact)
+			checkGroundContact = true;
 
-		/*if(checkGroundContact)
+
+		if(checkGroundContact)
 		{
 
 			if(DEBUG){printf("GROUND CONTACT, EOE\n");}
 
-			rewardHistory = None;
-			newReward     = None;
-			endEpisode    = None;
+			rewardHistory += REWARD_LOSS;
+			newReward     = true;
+			endEpisode    = false;
 		}
-		*/
 
 		/*
 		/ TODO - Issue an interim reward based on the distance to the object
 		/
 		*/
 
-		/*
 		if(!checkGroundContact)
 		{
-			const float distGoal = 0; // compute the reward from distance to the goal
+			const float distGoal = gripper->GetWorldCoGPose().pos.Distance(prop->model->GetWorldPose().pos); // compute the reward from distance to the goal
 
 			if(DEBUG){printf("distance('%s', '%s') = %f\n", gripper->GetName().c_str(), prop->model->GetName().c_str(), distGoal);}
 
@@ -604,13 +628,13 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 				const float distDelta  = lastGoalDistance - distGoal;
 
 				// compute the smoothed moving average of the delta of the distance to the goal
-				avgGoalDelta  = 0.0;
-				rewardHistory = None;
-				newReward     = None;
+				avgGoalDelta  = (avgGoalDelta * 0.9) + (distDelta * 0.1);
+				rewardHistory += avgGoalDelta > 0 ? REWARD_WIN : REWARD_LOSS;
+				newReward     = true;
 			}
 
 			lastGoalDistance = distGoal;
-		} */
+		}
 	}
 
 	// issue rewards and train DQN
