@@ -262,11 +262,12 @@ void ArmPlugin::onCameraMsg(ConstImageStampedPtr &_msg)
 // onCollisionMsg
 void ArmPlugin::onCollisionMsg(ConstContactsPtr &contacts)
 {
-	//if(DEBUG){printf("collision callback (%u contacts)\n", contacts->contact_size());}
+	if(DEBUG){printf("collision callback (%u contacts)\n", contacts->contact_size());}
 
 	if( testAnimation )
 		return;
 
+	bool collisionCheck = false;
 	for (unsigned int i = 0; i < contacts->contact_size(); ++i)
 	{
 		if( strcmp(contacts->contact(i).collision2().c_str(), COLLISION_FILTER) == 0 )
@@ -275,25 +276,28 @@ void ArmPlugin::onCollisionMsg(ConstContactsPtr &contacts)
 		if(DEBUG){std::cout << "Collision between[" << contacts->contact(i).collision1()
 			     << "] and [" << contacts->contact(i).collision2() << "]\n";}
 
-
+		if (contacts->contact(i).collision1() == std::string(COLLISION_ITEM) &&
+			contacts->contact(i).collision2() == std::string(COLLISION_POINT)) {
+				collisionCheck = true;
+		}
+		if (contacts->contact(i).collision2() == std::string(COLLISION_ITEM) &&
+				contacts->contact(i).collision1() == std::string(COLLISION_POINT)) {
+				collisionCheck = true;
+		}
 		/*
 		/ TODO - Check if there is collision between the arm and object, then issue learning reward
 		/
 		*/
 
-		/*
-
 		if (collisionCheck)
 		{
-			rewardHistory = None;
+			rewardHistory += 10 * REWARD_WIN;
 
-			newReward  = None;
-			endEpisode = None;
+			newReward  = true;
+			endEpisode = true;
 
 			return;
 		}
-		*/
-
 	}
 }
 
