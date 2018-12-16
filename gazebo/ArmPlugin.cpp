@@ -273,17 +273,32 @@ void ArmPlugin::onCollisionMsg(ConstContactsPtr &contacts)
 		if( strcmp(contacts->contact(i).collision2().c_str(), COLLISION_FILTER) == 0 )
 			continue;
 
-		if(DEBUG){std::cout << "Collision between[" << contacts->contact(i).collision1()
+		if(true){std::cout << "Collision between[" << contacts->contact(i).collision1()
 			     << "] and [" << contacts->contact(i).collision2() << "]\n";}
 
-		if (contacts->contact(i).collision1() == std::string(COLLISION_ITEM) &&
-			contacts->contact(i).collision2() == std::string(COLLISION_POINT)) {
-				collisionCheck = true;
+		std::string& const collision1 = contacts->contact(i).collision1();
+		std::string& const collision2 = contacts->contact(i).collision2();
+
+		if (collision1 == std::string(COLLISION_ITEM)) {
+			if (collision2 == std::string(COLLISION_POINT) ||
+				collision2 == "arm::link2::collision2" ||
+				collision2 == "arm::middle::middle_collision" ||
+				collision2 == "arm::gripper_right::right_gripper" ||
+				collision2 == "arm::gripper_left::left_gripper")
+			{
+					collisionCheck = true;
+			}
+		} else if (collision2 == std::string(COLLISION_ITEM)) {
+			if (collision1 == std::string(COLLISION_POINT) ||
+				collision1 == "arm::link2::collision2" ||
+				collision1 == "arm::middle::middle_collision" ||
+				collision1 == "arm::gripper_right::right_gripper" ||
+				collision1 == "arm::gripper_left::left_gripper")
+			{
+					collisionCheck = true;
+			}
 		}
-		if (contacts->contact(i).collision2() == std::string(COLLISION_ITEM) &&
-				contacts->contact(i).collision1() == std::string(COLLISION_POINT)) {
-				collisionCheck = true;
-		}
+
 		/*
 		/ TODO - Check if there is collision between the arm and object, then issue learning reward
 		/
@@ -565,7 +580,7 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 	if( maxEpisodeLength > 0 && episodeFrames > maxEpisodeLength )
 	{
 		printf("ArmPlugin - triggering EOE, episode has exceeded %i frames\n", maxEpisodeLength);
-		rewardHistory += 10*REWARD_LOSS;
+		rewardHistory += 0;
 		newReward     = true;
 		endEpisode    = true;
 	}
@@ -608,7 +623,7 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 		if(checkGroundContact)
 		{
 
-			if(DEBUG){printf("GROUND CONTACT, EOE\n");}
+			if(true){printf("GROUND CONTACT, EOE\n");}
 			if (!endEpisode) {
 				rewardHistory += 10 * REWARD_LOSS;
 			}

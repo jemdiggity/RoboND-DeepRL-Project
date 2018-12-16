@@ -166,7 +166,7 @@
 			</geometry>
 		</visual>
 		</link>
-        
+
 		<link name="gripperbase">
 		    <pose>0 0 1.68 0 0 0</pose>
 			<inertial>
@@ -180,19 +180,19 @@
 		          <izz>0.0001</izz>
 		        </inertia>
 			</inertial>
-			<visual name="gripper_link">		   
+			<visual name="gripper_link">
 				<geometry>
 		            <mesh><uri>file://meshes/gripper/gripper_base.dae</uri></mesh>
 				</geometry>
 			</visual>
-			<collision name="gripper_link">    
+			<collision name="gripper_link">
 				<geometry>
 		            <mesh><uri>file://meshes/gripper/gripper_base.dae</uri></mesh>
 				</geometry>
 			</collision>
 		</link>
 
-		<link name="gripper_middle">
+		<link name="middle">
 			<pose>0 0 1.77 0 0 0</pose>
 			<collision name="middle_collision">
 			<geometry>
@@ -200,7 +200,7 @@
 					<size>.01 .01 .07</size>
 				</box>
 			</geometry>
-			</collision>              
+			</collision>
 			<visual name="middle_vision">
 				<geometry>
 					<box>
@@ -349,7 +349,7 @@
 				<xyz>0 1 0</xyz>
 			</axis>
 		</joint>
-		  
+
 		<joint name="gripperbase" type="fixed">
             <pose>0 0 -0.05 0 0 0</pose>
             <parent>link2</parent>
@@ -367,7 +367,7 @@
                 <xyz>0 1 0</xyz>
             </axis>
         </joint>
-		 
+
 		<!--<plugin name="graspPlugin" filename="libgazeboGraspPlugin.so">
       		<arm>
         		<arm_name>arm</arm_name>
@@ -382,7 +382,7 @@
       		<release_tolerance>0.003</release_tolerance>
       		<disable_collisions_on_attach>false</disable_collisions_on_attach>
       		<contact_topic>__default_topic__</contact_topic>
-		</plugin>-->	
+		</plugin>-->
 	</model>
 
 
@@ -430,7 +430,7 @@
 		</link>
 	</model>
 
-	
+
 
 	<!--               -->
 	<!-- TUBE/COLLISION -->
@@ -438,7 +438,7 @@
 	<model name="tube">
 		<link name="tube_link">
 		<pose>1.15 0 0 0 0 0</pose>
-		
+
 		<collision name="tube_collision">
 			<geometry>
 			     <cylinder>
