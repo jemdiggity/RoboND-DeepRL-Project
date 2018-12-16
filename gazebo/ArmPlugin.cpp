@@ -291,7 +291,7 @@ void ArmPlugin::onCollisionMsg(ConstContactsPtr &contacts)
 
 		if (collisionCheck)
 		{
-			rewardHistory += REWARD_WIN;
+			rewardHistory += 100 * REWARD_WIN;
 
 			newReward  = true;
 			endEpisode = true;
