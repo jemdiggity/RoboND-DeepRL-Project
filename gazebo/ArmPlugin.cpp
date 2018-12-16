@@ -624,7 +624,7 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 		{
 			const float distGoal = gripper->GetWorldCoGPose().pos.Distance(prop->model->GetWorldPose().pos); // compute the reward from distance to the goal
 
-			if(DEBUG){printf("distance('%s', '%s') = %f\n", gripper->GetName().c_str(), prop->model->GetName().c_str(), distGoal);}
+			if(DEBUG){printf("distance('%s', '%s') = %f (last %f)\n", gripper->GetName().c_str(), prop->model->GetName().c_str(), distGoal, lastGoalDistance);}
 
 
 			if( episodeFrames > 1 )
