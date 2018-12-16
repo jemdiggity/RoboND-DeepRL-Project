@@ -566,7 +566,7 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 	{
 		printf("ArmPlugin - triggering EOE, episode has exceeded %i frames\n", maxEpisodeLength);
 		rewardHistory += 10*REWARD_LOSS;
-		newReward     = false;
+		newReward     = true;
 		endEpisode    = true;
 	}
 
