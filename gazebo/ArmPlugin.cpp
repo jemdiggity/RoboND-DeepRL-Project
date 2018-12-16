@@ -623,18 +623,17 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 		if(!checkGroundContact)
 		{
 			const float distGoal = gripper->GetWorldCoGPose().pos.Distance(prop->model->GetWorldPose().pos); // compute the reward from distance to the goal
+			const float distDelta = distGoal - lastGoalDistance;
 
-			if(DEBUG){printf("distance('%s', '%s') = %f (avg %f)\n", gripper->GetName().c_str(), prop->model->GetName().c_str(), distGoal, avgGoalDelta);}
-
+			if(DEBUG){printf("distance('%s', '%s') = %f (last %f)\n", gripper->GetName().c_str(), prop->model->GetName().c_str(), distGoal, distDelta);}
 
 			if( episodeFrames > 1 )
 			{
-				const float distDelta  = lastGoalDistance - distGoal;
 
 				// compute the smoothed moving average of the delta of the distance to the goal
-				avgGoalDelta  = (avgGoalDelta * 0.5) + (distDelta * 0.5);
+				// avgGoalDelta  = (avgGoalDelta * 0.5) + (distDelta * 0.5);
 				// avgGoalDelta = distDelta;
-				rewardHistory += avgGoalDelta > 0 ? REWARD_WIN : REWARD_LOSS;
+				rewardHistory += distDelta > 0 ? REWARD_LOSS : REWARD_WIN;
 				newReward     = true;
 			}
 
