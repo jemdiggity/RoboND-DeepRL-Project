@@ -16,7 +16,7 @@
 #define JOINT_MAX	 2.0f
 
 // Turn on velocity based control
-#define VELOCITY_CONTROL false
+#define VELOCITY_CONTROL 0
 #define VELOCITY_MIN -0.2f
 #define VELOCITY_MAX  0.2f
 
@@ -66,7 +66,7 @@
 #define ANIMATION_STEPS 1000
 
 // Set Debug Mode
-#define DEBUG false
+#define DEBUG true
 
 // Lock base rotation DOF (Add dof in header file if off)
 #define LOCKBASE true
@@ -628,7 +628,8 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 				const float distDelta  = lastGoalDistance - distGoal;
 
 				// compute the smoothed moving average of the delta of the distance to the goal
-				avgGoalDelta  = (avgGoalDelta * 0.9) + (distDelta * 0.1);
+				// avgGoalDelta  = (avgGoalDelta * 0.9) + (distDelta * 0.1);
+				avgGoalDelta = distDelta;
 				rewardHistory += avgGoalDelta > 0 ? REWARD_WIN : REWARD_LOSS;
 				newReward     = true;
 			}
