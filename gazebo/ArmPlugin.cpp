@@ -66,7 +66,7 @@
 #define ANIMATION_STEPS 1000
 
 // Set Debug Mode
-#define DEBUG true
+#define DEBUG false
 
 // Lock base rotation DOF (Add dof in header file if off)
 #define LOCKBASE true
@@ -565,8 +565,8 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 	if( maxEpisodeLength > 0 && episodeFrames > maxEpisodeLength )
 	{
 		printf("ArmPlugin - triggering EOE, episode has exceeded %i frames\n", maxEpisodeLength);
-		rewardHistory = REWARD_LOSS;
-		newReward     = true;
+		rewardHistory += 10*REWARD_LOSS;
+		newReward     = false;
 		endEpisode    = true;
 	}
 
@@ -605,12 +605,12 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 			checkGroundContact = true;
 
 
-		if(checkGroundContact)
+		if(checkGroundContact && !endEpisode)
 		{
 
 			if(DEBUG){printf("GROUND CONTACT, EOE\n");}
 
-			rewardHistory += 100 * REWARD_LOSS;
+			rewardHistory += 10 * REWARD_LOSS;
 			newReward     = true;
 			endEpisode    = true;
 		}
