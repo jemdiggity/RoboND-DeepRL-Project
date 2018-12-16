@@ -605,12 +605,13 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 			checkGroundContact = true;
 
 
-		if(checkGroundContact && !endEpisode)
+		if(checkGroundContact)
 		{
 
 			if(DEBUG){printf("GROUND CONTACT, EOE\n");}
-
-			rewardHistory += 10 * REWARD_LOSS;
+			if (!endEpisode) {
+				rewardHistory += 10 * REWARD_LOSS;
+			}
 			newReward     = true;
 			endEpisode    = true;
 		}
@@ -644,7 +645,7 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 	}
 
 	// issue rewards and train DQN
-	if( (newReward || endEpisode) && agent != NULL )
+	if(newReward && agent != NULL )
 	{
 		if(DEBUG){printf("ArmPlugin - issuing reward %f, EOE=%s  %s\n", rewardHistory, endEpisode ? "true" : "false", (rewardHistory > 0.1f) ? "POS+" :(rewardHistory > 0.0f) ? "POS" : (rewardHistory < 0.0f) ? "    NEG" : "       ZERO");}
 		agent->NextReward(rewardHistory, endEpisode);
