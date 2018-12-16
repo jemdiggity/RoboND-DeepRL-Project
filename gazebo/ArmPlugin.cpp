@@ -612,7 +612,7 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 
 			rewardHistory += REWARD_LOSS;
 			newReward     = true;
-			endEpisode    = false;
+			endEpisode    = true;
 		}
 
 		/*
