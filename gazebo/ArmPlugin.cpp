@@ -282,7 +282,7 @@ void ArmPlugin::onCollisionMsg(ConstContactsPtr &contacts)
 		if (collision1 == std::string(COLLISION_ITEM)) {
 			if (collision2 == std::string(COLLISION_POINT) ||
 				collision2 == "arm::link2::collision2" ||
-				collision2 == "arm::middle::middle_collision" ||
+				collision2 == "arm::gripper_middle::middle_collision" ||
 				collision2 == "arm::gripper_right::right_gripper" ||
 				collision2 == "arm::gripper_left::left_gripper")
 			{
@@ -291,7 +291,7 @@ void ArmPlugin::onCollisionMsg(ConstContactsPtr &contacts)
 		} else if (collision2 == std::string(COLLISION_ITEM)) {
 			if (collision1 == std::string(COLLISION_POINT) ||
 				collision1 == "arm::link2::collision2" ||
-				collision1 == "arm::middle::middle_collision" ||
+				collision1 == "arm::gripper_middle::middle_collision" ||
 				collision1 == "arm::gripper_right::right_gripper" ||
 				collision1 == "arm::gripper_left::left_gripper")
 			{
