@@ -684,6 +684,7 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 
 			totalRuns++;
 			printf("Current Accuracy:  %0.4f (%03u of %03u)  (reward=%+0.2f %s)\n", float(successfulGrabs)/float(totalRuns), successfulGrabs, totalRuns, rewardHistory, (rewardHistory >= REWARD_WIN ? "WIN" : "LOSS"));
+			rewardHistory = 0;
 
 
 			for( uint32_t n=0; n < DOF; n++ )
