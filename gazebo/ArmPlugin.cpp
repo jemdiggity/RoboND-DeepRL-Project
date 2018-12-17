@@ -276,8 +276,8 @@ void ArmPlugin::onCollisionMsg(ConstContactsPtr &contacts)
 		if(true){std::cout << "Collision between[" << contacts->contact(i).collision1()
 			     << "] and [" << contacts->contact(i).collision2() << "]\n";}
 
-		std::string& const collision1 = contacts->contact(i).collision1();
-		std::string& const collision2 = contacts->contact(i).collision2();
+		std::string const collision1 = contacts->contact(i).collision1();
+		std::string const collision2 = contacts->contact(i).collision2();
 
 		if (collision1 == std::string(COLLISION_ITEM)) {
 			if (collision2 == std::string(COLLISION_POINT) ||
