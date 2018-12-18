@@ -38,7 +38,7 @@
 #define INPUT_WIDTH   64
 #define INPUT_HEIGHT  64
 #define OPTIMIZER "RMSprop"
-#define LEARNING_RATE 0.003f
+#define LEARNING_RATE 0.001f
 #define REPLAY_MEMORY 10000
 #define BATCH_SIZE 256
 #define USE_LSTM true
@@ -643,7 +643,7 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 			const float distGoal = gripper->GetWorldCoGPose().pos.Distance(prop->model->GetWorldPose().pos); // compute the reward from distance to the goal
 			const float distDelta = distGoal - lastGoalDistance;
 
-			if(DEBUG){printf("distance('%s', '%s') = %f (last %f)\n", gripper->GetName().c_str(), prop->model->GetName().c_str(), distGoal, distDelta);}
+			if(true){printf("distance('%s', '%s') = %f (last %f)\n", gripper->GetName().c_str(), prop->model->GetName().c_str(), distGoal, distDelta);}
 
 			if( episodeFrames > 1 )
 			{
@@ -657,7 +657,7 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 				} else {
 					rewardHistory += REWARD_LOSS;
 				}
-				rewardHistory = REWARD_LOSS * (distGoal*distGoal);
+				rewardHistory = REWARD_LOSS * (distGoal);
 			}
 
 			lastGoalDistance = distGoal;
