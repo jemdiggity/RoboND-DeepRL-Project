@@ -38,7 +38,7 @@
 #define INPUT_WIDTH   64
 #define INPUT_HEIGHT  64
 #define OPTIMIZER "RMSprop"
-#define LEARNING_RATE 0.001f
+#define LEARNING_RATE 0.03f
 #define REPLAY_MEMORY 10000
 #define BATCH_SIZE 256
 #define USE_LSTM true
