@@ -657,7 +657,7 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 				} else {
 					rewardHistory += REWARD_LOSS;
 				}
-				rewardHistory = REWARD_LOSS * (distGoal**2);
+				rewardHistory = REWARD_LOSS * (distGoal*distGoal);
 			}
 
 			lastGoalDistance = distGoal;
