@@ -643,10 +643,10 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 			// const float distGoal = gripper->GetWorldCoGPose().pos.Distance(prop->model->GetWorldPose().pos); // compute the reward from distance to the goal
 			// const float distDelta = distGoal - lastGoalDistance;
 			auto const gripper_pos = gripper->GetWorldCoGPose().pos;
-			auto const goal_pos = prop->model->GetChildLink("tube_link")->GetModel()->GetWorldPose().pos;
+			// auto const goal_pos = prop->model->GetChildLink("tube_link")->GetModel()->GetWorldPose().pos;
 			// if(true){printf("distance('%s', '%s') = %f (last %f)\n", gripper->GetName().c_str(), prop->model->GetName().c_str(), distGoal, distDelta);}
 			printf("gripper %f %f %f\n", gripper_pos.x, gripper_pos.y, gripper_pos.z);
-			printf("goal %f %f %f\n", goal_pos.x, goal_pos.y, goal_pos.z);
+			// printf("goal %f %f %f\n", goal_pos.x, goal_pos.y, goal_pos.z);
 
 			if( episodeFrames > 1 )
 			{
@@ -654,7 +654,7 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 				// compute the smoothed moving average of the delta of the distance to the goal
 				// avgGoalDelta  = (avgGoalDelta * 0.5) + (distDelta * 0.5);
 				newReward = true;
-				rewardHistory = REWARD_LOSS * fabs(gripper_pos.x - goal_pos.x);
+				rewardHistory = REWARD_LOSS * fabs(gripper_pos.x - 1.15);
 			}
 
 			// lastGoalDistance = distGoal;
