@@ -54,7 +54,7 @@
 
 // Define Object Names
 #define WORLD_NAME "arm_world"
-#define PROP_NAME  "tube"
+#define PROP_NAME  "tube::tube_link"
 #define GRIP_NAME  "gripperbase"
 
 // Define Collision Parameters
