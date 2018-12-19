@@ -647,17 +647,21 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 			// if(true){printf("distance('%s', '%s') = %f (last %f)\n", gripper->GetName().c_str(), prop->model->GetName().c_str(), distGoal, distDelta);}
 			// printf("gripper %f %f %f\n", gripper_pos.x, gripper_pos.y, gripper_pos.z);
 			// printf("goal %f %f %f\n", goal_pos.x, goal_pos.y, goal_pos.z);
-
+			float const distGoal = pow(gripper_pos.x - 1.15,2) + pow(gripper_pos.z - 0.075,2);
+			float const distDelta = distGoal - lastgoalDistance;
 			if( episodeFrames > 1 )
 			{
 
 				// compute the smoothed moving average of the delta of the distance to the goal
 				// avgGoalDelta  = (avgGoalDelta * 0.5) + (distDelta * 0.5);
 				newReward = true;
-				rewardHistory = REWARD_LOSS * (10*pow(gripper_pos.x - 1.15,2) + pow(gripper_pos.z - 0.075,2));
+				if (distDelta > 0)
+					rewardHistory = REWARD_LOSS;
+				else
+					rewardHistory = 0;
 			}
 
-			// lastGoalDistance = distGoal;
+			lastGoalDistance = distGoal;
 		}
 	}
 
