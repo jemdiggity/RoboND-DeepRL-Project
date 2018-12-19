@@ -39,10 +39,10 @@
 #define INPUT_HEIGHT  64
 #define OPTIMIZER "RMSprop"
 #define LEARNING_RATE 0.001f
-#define REPLAY_MEMORY 1000
-#define BATCH_SIZE 64
+#define REPLAY_MEMORY 10000
+#define BATCH_SIZE 256
 #define USE_LSTM true
-#define LSTM_SIZE 64
+#define LSTM_SIZE 256
 
 /*
 / TODO - Define Reward Parameters
@@ -115,7 +115,7 @@ ArmPlugin::ArmPlugin() : ModelPlugin(), cameraNode(new gazebo::transport::Node()
 	inputRawHeight   = 0;
 	actionJointDelta = 0.15f;
 	actionVelDelta   = 0.1f;
-	maxEpisodeLength = 20;
+	maxEpisodeLength = 100;
 	episodeFrames    = 0;
 
 	newState         = false;
