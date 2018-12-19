@@ -54,7 +54,7 @@
 
 // Define Object Names
 #define WORLD_NAME "arm_world"
-#define PROP_NAME  "tube::tube_link"
+#define PROP_NAME  "tube"
 #define GRIP_NAME  "gripperbase"
 
 // Define Collision Parameters
@@ -643,7 +643,7 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 			// const float distGoal = gripper->GetWorldCoGPose().pos.Distance(prop->model->GetWorldPose().pos); // compute the reward from distance to the goal
 			// const float distDelta = distGoal - lastGoalDistance;
 			auto const gripper_pos = gripper->GetWorldCoGPose().pos;
-			auto const goal_pos = prop->model->GetWorldPose().pos;
+			auto const goal_pos = prop->model->GetChildLink("tube_link")->model->GetWorldPose().pos;
 			// if(true){printf("distance('%s', '%s') = %f (last %f)\n", gripper->GetName().c_str(), prop->model->GetName().c_str(), distGoal, distDelta);}
 			printf("gripper %f %f %f\n", gripper_pos.x, gripper_pos.y, gripper_pos.z);
 			printf("goal %f %f %f\n", goal_pos.x, goal_pos.y, goal_pos.z);
