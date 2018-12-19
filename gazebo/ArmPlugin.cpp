@@ -648,7 +648,7 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 			// printf("gripper %f %f %f\n", gripper_pos.x, gripper_pos.y, gripper_pos.z);
 			// printf("goal %f %f %f\n", goal_pos.x, goal_pos.y, goal_pos.z);
 			float const distGoal = pow(gripper_pos.x - 1.15,2) + pow(gripper_pos.z - 0.075,2);
-			float const distDelta = distGoal - lastgoalDistance;
+			float const distDelta = distGoal - lastGoalDistance;
 			if( episodeFrames > 1 )
 			{
 
